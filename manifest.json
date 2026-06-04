@@ -1,0 +1,25 @@
+{
+  "name": "تطبيق الصور والصوت",
+  "short_name": "صور وصوت",
+  "description": "تطبيق يعرض صورتين ويشغل صوت بدون إنترنت",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#667eea",
+  "background_color": "#ffffff",
+  "orientation": "portrait",
+  "scope": "./",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
