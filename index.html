@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>تطبيق الصور والصوت</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+</head>
+<body>
+    <div class="container">
+        <h1>📱 تطبيق الصور والصوت</h1>
+        
+        <div class="image-container">
+            <img id="image1" class="image active" src="1.png" alt="الصورة الأولى">
+            <img id="image2" class="image" src="2.png" alt="الصورة الثانية">
+        </div>
+        
+        <div class="controls">
+            <button id="playBtn" class="btn btn-primary">▶ تشغيل</button>
+            <button id="resetBtn" class="btn btn-secondary">🔄 إعادة</button>
+        </div>
+        
+        <div class="status">
+            <p id="statusText">جاهز للتشغيل</p>
+            <p id="offlineStatus" class="offline-status"></p>
+        </div>
+    </div>
+    
+    <audio id="audioPlayer" src="odio.mp4" preload="auto"></audio>
+    
+    <script src="script.js"></script>
+    <script>
+        // تسجيل Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(registration => {
+                        console.log('Service Worker تم تسجيله بنجاح:', registration.scope);
+                        
+                        const offlineStatus = document.getElementById('offlineStatus');
+                        if (offlineStatus) {
+                            if (!navigator.onLine) {
+                                offlineStatus.textContent = '✓ يعمل بدون إنترنت - وضع Offline';
+                                offlineStatus.style.color = '#28a745';
+                            } else {
+                                offlineStatus.textContent = '✓ جاهز للعمل بدون إنترنت';
+                                offlineStatus.style.color = '#17a2b8';
+                            }
+                            
+                            window.addEventListener('online', () => {
+                                offlineStatus.textContent = '✓ أنت متصل بالإنترنت - التطبيق مخزن محلياً';
+                                offlineStatus.style.color = '#17a2b8';
+                            });
+                            
+                            window.addEventListener('offline', () => {
+                                offlineStatus.textContent = '✓ يعمل بدون إنترنت - وضع Offline';
+                                offlineStatus.style.color = '#28a745';
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.log('فشل تسجيل Service Worker:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
